@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.1.13",
+    "@upstash/redis": "^1.22.1",
     "framer-motion": "^10.16.4",
     "next": "latest",
     "react": "latest",
