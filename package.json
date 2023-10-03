@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next-auth/upstash-redis-adapter": "^3.0.4",
     "@nextui-org/react": "^2.1.13",
     "@upstash/redis": "^1.22.1",
     "framer-motion": "^10.16.4",
