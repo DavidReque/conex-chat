@@ -1,12 +1,24 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Button from '../components/ui/Button'
+import { Spinner } from '@nextui-org/react'
+import { signIn } from 'next-auth/react'
+import toast from 'react-hot-toast'
 
 export default function page() {
+  const [loading, setLoading] = useState<boolean>(false)
 
-  function loginWithGoogle() {
-    
+  async function loginWithGoogle() {
+    setLoading(true)
+    try {
+      signIn('google')
+    } catch (error) {
+      toast.error('Something went wrong with your login.')
+      console.error(error);
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -17,9 +29,9 @@ export default function page() {
                     logo
                     <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-900'>Sign in to your account</h2>
                 </div>
-                <button onClick={loginWithGoogle}>
-                  <Button/>
-                </button>
+                <div onClick={loginWithGoogle}>
+                  {loading ? <Spinner color="default"/> : <Button/>}
+                </div>
             </div>
         </div> 
     </>
