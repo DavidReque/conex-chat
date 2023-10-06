@@ -1,7 +1,14 @@
-import React from 'react'
+'use client'
 
-export default function DashBoard() {
+import { signOut } from 'next-auth/react'
+
+export default function dashboard() {
   return (
-    <div>DashBoard</div>
+    <div>
+      <button className='bg-red-400'
+      onClick={async() => {await signOut({
+        callbackUrl: '/'
+      })}}>Sign out</button>
+    </div>
   )
 }
