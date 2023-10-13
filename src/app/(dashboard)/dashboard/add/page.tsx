@@ -1,7 +1,10 @@
+import AddFriendButton from '@/components/AddFriendButton'
 import React from 'react'
 
 export default function page() {
   return (
-    <div>page</div>
+    <main>
+        <AddFriendButton/>
+    </main>
   )
 }
