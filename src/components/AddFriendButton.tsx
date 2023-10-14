@@ -1,13 +1,61 @@
 'use client'
-import { Button, Input } from "@nextui-org/react";
 
-export default function App() {
+import { addFriendValidator } from "@/app/lib/validations/add-friend";
+import { Button, Input } from "@nextui-org/react";
+import axios, { AxiosError } from 'axios'
+import { useState } from "react";
+import {z} from 'zod';
+import { useForm } from 'react-hook-form'
+import {zodResolver} from '@hookform/resolvers/zod'
+ 
+export default function AddFriendButton() {
+  const [showSuccesState, setSetshowSuccesState] = useState<boolean>(false)
+
+  type FormData = z.infer<typeof addFriendValidator>
+
+  const {
+    register, handleSubmit, setError, formState: {errors}
+  } = useForm<FormData>({
+    resolver: zodResolver(addFriendValidator),
+  })
+
+  async function addFriend(email:string) {
+    try {
+      const validateEmail = addFriendValidator.parse({email})
+
+      await axios.post('/api/friends/add'), {
+        email: validateEmail
+      }
+      
+      setSetshowSuccesState(true)
+
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setError('email', {message: error.message})
+        return
+      }
+
+      if (error instanceof AxiosError) {
+        setError('email', {message: error.response?.data})
+        return
+      }
+      
+      setError('email', {message: 'Something went wrong'})
+
+      console.error(error);
+    }
+  }
+
+  const onSubmit = (data: FormData) => {
+    addFriend(data.email)
+  }
+  
   return (
-    <form className="m-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="m-4">
       <h2 className="text-2xl my-5">Add a friend by E-mail</h2>
       <div className="w-full flex flex-col space-y-4">
         <div className="flex flex-wrap md:flex-nowrap mb-6 md:mb-0 space-x-4">
-          <Input type="email" variant="faded" label="Email" color="success" />
+          <Input {...register('email')} type="email" variant="faded" label="Email" color="success" />
           <Button
             className="py-6"
             color="success"
@@ -31,9 +79,13 @@ export default function App() {
               </>
             }
           >
-            Add friend
+            Add
           </Button>
         </div>
+        <p>{errors.email?.message}</p>
+      {showSuccesState ? (
+        <p>Friend reques sent</p>
+      ): null}
       </div>
     </form>
   );
