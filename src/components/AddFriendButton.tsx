@@ -23,9 +23,9 @@ export default function AddFriendButton() {
     try {
       const validateEmail = addFriendValidator.parse({email})
 
-      await axios.post('/api/friends/add'), {
+      await axios.post('/api/friends/add', {
         email: validateEmail
-      }
+      })
       
       setSetshowSuccesState(true)
 
@@ -55,8 +55,9 @@ export default function AddFriendButton() {
       <h2 className="text-2xl my-5">Add a friend by E-mail</h2>
       <div className="w-full flex flex-col space-y-4">
         <div className="flex flex-wrap md:flex-nowrap mb-6 md:mb-0 space-x-4">
-          <Input {...register('email')} type="email" variant="faded" label="Email" color="success" />
+        <Input {...register('email')} type="email" variant="faded" label="Email" color="success" />
           <Button
+            type="submit"
             className="py-6"
             color="success"
             variant="bordered"
