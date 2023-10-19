@@ -1,4 +1,5 @@
 import { authOptions } from '@/app/lib/auth'
+import { Icon, Icons } from '@/components/Icons/Icons'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -7,6 +8,22 @@ import { FC, ReactNode } from 'react'
 interface LayoutProps {
     children: ReactNode
 }
+
+interface SideBarOption {
+  id: number
+  name: string
+  href: string
+  icon: Icon
+}
+
+const sideBarOptions: SideBarOption[] = [
+  {
+    id: 1,
+    name: 'Add a friend',
+    href: '/dashboard/add',
+    icon: 'UserPlus'
+  }
+]
 
 const Layout: FC<LayoutProps> = async ({children}) => {
     const session = await getServerSession(authOptions)
@@ -17,13 +34,45 @@ const Layout: FC<LayoutProps> = async ({children}) => {
 
   return (
     <div className='w-full flex h-screen'>
-      <div className='flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6'></div>
+      <div className='flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6'>
       <Link href='/dashboard' className='flex h-16 shrink-0 items-center'>
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-16 h-16 text-indigo-600">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
-</svg>
-
+        <Icons.Logo className='h-8 w-auto text-indigo-600'/>
       </Link>
+
+      <div className='text-xs font-semibold leading-6 text-gray-400'>
+        Your chats
+      </div>
+
+      <nav className='flex flex-1 flex-col'>
+        <ul role='list' className='flex flex-1 flex-col gap-y-7'>
+          <li>Chats that this user has</li>
+          <li>
+            <div className='text-xs font-semibold leading-6 text-gray-400'>
+              Overview
+            </div>
+
+            <ul role='list' className=' -mx-2 mt-2 space-y-1'>
+              {sideBarOptions.map((option) => {
+                const Icon = Icons[option.icon]
+                return(
+                  <li key={option.id}>
+                    <Link
+                        href={option.href}
+                        className='text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-3 rounded-md p-2 text-sm leading-6 font-semibold'>
+                        <span className='text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white'>
+                          <Icon className='h-4 w-4' />
+                        </span>
+
+                        <span className='truncate'>{option.name}</span>
+                      </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      </div>
       {children}
     </div>
   )

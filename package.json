@@ -17,6 +17,7 @@
     "ax": "^0.2.2",
     "axios": "^1.5.1",
     "framer-motion": "^10.16.4",
+    "lucide-react": "^0.288.0",
     "next": "latest",
     "next-auth": "^4.23.2",
     "react": "latest",
