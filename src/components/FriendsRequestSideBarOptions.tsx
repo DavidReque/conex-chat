@@ -13,7 +13,7 @@ interface FriendsRequestSideBarOptionsProps {
  const FriendsRequestSideBarOptions: FC<FriendsRequestSideBarOptionsProps> = ({initialUnseenRequestCount,
 sessionId}) => {
 
-    const [requestCount, setRequestCount] = useState<number>(
+    const [unseenrequestCount, setUnseenRequestCount] = useState<number>(
         initialUnseenRequestCount
     )
 
@@ -24,9 +24,9 @@ sessionId}) => {
         </div>
         <p className='truncate'>Friend requests</p>
 
-        {requestCount > 0 ? (
+        {unseenrequestCount > 0 ? (
             <div className='rounded-full w-5 h-5 text-xs flex justify-center items-center text-white bg-indigo-600'>
-                {requestCount}
+                {unseenrequestCount}
             </div>
         ) : null}
     </Link>
