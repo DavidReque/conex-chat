@@ -1,6 +1,6 @@
 'use client'
 
-import { Check, UserPlus } from 'lucide-react'
+import { Check, UserPlus, X } from 'lucide-react'
 import React, { FC, useState } from 'react'
 
 interface FriendRequestProps {
@@ -28,7 +28,10 @@ const FriendRequest: FC<FriendRequestProps> = ({
                     <button aria-label='Accept friend' className='w-8 h-8 bg-indigo-600 hover:bg-indigo-700 grid place-items-center rounded-full transition hover:shadow-md'>
                         <Check className='font-semibold to-white w-3/4 h-3/4' />
                     </button>
-                    <button></button>
+                   
+                    <button aria-label='deny friend' className='w-8 h-8 bg-red-600 hover:bg-red-700 grid place-items-center rounded-full transition hover:shadow-md'>
+                        <X className='font-semibold to-white w-3/4 h-3/4' />
+                    </button>
                 </div>
             })
         )}
