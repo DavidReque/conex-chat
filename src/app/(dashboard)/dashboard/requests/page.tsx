@@ -22,11 +22,12 @@ export default async function page() {
             const sender = await fetchRedis(
                 'get',
                 `user:${senderId}`
-            ) as User
+            ) as string
 
+            const senderParsed = JSON.parse(sender) as User
             return {
                 senderId,
-                senderEmail: sender.email
+                senderEmail: senderParsed.email
             }
         })
     )

@@ -1,6 +1,8 @@
 'use client'
 
+import axios from 'axios'
 import { Check, UserPlus, X } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import React, { FC, useState } from 'react'
 
 interface FriendRequestProps {
@@ -12,9 +14,30 @@ const FriendRequest: FC<FriendRequestProps> = ({
     incomingFriendRequest, 
     sessionId
 }) => {
+    const router = useRouter()
     const [friendRequest, setFriendRequest] = useState<incomingFriendRequest[]>(
         incomingFriendRequest
     )
+
+    const acceptFriend = async (senderId: string) => {
+        await axios.post('/api/requests/accept', {id: senderId})
+
+        setFriendRequest((prev) => 
+            prev.filter((request) => request.senderId !== senderId)
+        )
+
+        router.refresh()
+    }      
+    
+    const denytFriend = async (senderId: string) => {
+        await axios.post('/api/requests/deny', {id: senderId})
+
+        setFriendRequest((prev) => 
+            prev.filter((request) => request.senderId !== senderId)
+        )
+
+        router.refresh()
+    }  
 
   return (
     <>
