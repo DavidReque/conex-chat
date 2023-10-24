@@ -20,7 +20,7 @@ const FriendRequest: FC<FriendRequestProps> = ({
     )
 
     const acceptFriend = async (senderId: string) => {
-        await axios.post('/api/requests/accept', {id: senderId})
+        await axios.post('/api/friends/accept', {id: senderId})
 
         setFriendRequest((prev) => 
             prev.filter((request) => request.senderId !== senderId)
@@ -29,8 +29,8 @@ const FriendRequest: FC<FriendRequestProps> = ({
         router.refresh()
     }      
     
-    const denytFriend = async (senderId: string) => {
-        await axios.post('/api/requests/deny', {id: senderId})
+    const denyFriend = async (senderId: string) => {
+        await axios.post('/api/friends/deny', {id: senderId})
 
         setFriendRequest((prev) => 
             prev.filter((request) => request.senderId !== senderId)
@@ -48,11 +48,11 @@ const FriendRequest: FC<FriendRequestProps> = ({
                 <div key={request.senderId} className='flex items-center'>
                     <UserPlus className='text-black'/>
                     <p className='font-medium text-lg'>{request.senderEmail}</p>
-                    <button aria-label='Accept friend' className='w-8 h-8 bg-indigo-600 hover:bg-indigo-700 grid place-items-center rounded-full transition hover:shadow-md'>
+                    <button onClick={() => acceptFriend(request.senderId)} aria-label='Accept friend' className='w-8 h-8 bg-indigo-600 hover:bg-indigo-700 grid place-items-center rounded-full transition hover:shadow-md'>
                         <Check className='font-semibold to-white w-3/4 h-3/4' />
                     </button>
                    
-                    <button aria-label='deny friend' className='w-8 h-8 bg-red-600 hover:bg-red-700 grid place-items-center rounded-full transition hover:shadow-md'>
+                    <button onClick={() => denyFriend(request.senderId)} aria-label='deny friend' className='w-8 h-8 bg-red-600 hover:bg-red-700 grid place-items-center rounded-full transition hover:shadow-md'>
                         <X className='font-semibold to-white w-3/4 h-3/4' />
                     </button>
                 </div>
