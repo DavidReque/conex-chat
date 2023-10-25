@@ -1,0 +1,64 @@
+import { authOptions } from '@/app/lib/auth'
+import { db } from '@/app/lib/db'
+import { messageArrayValidator } from '@/app/lib/validations/message'
+import { fetchRedis } from '@/helpers/redis'
+import { getServerSession } from 'next-auth'
+import { notFound } from 'next/navigation'
+import React from 'react'
+
+interface pageProps {
+  params: {
+    chatId: string
+  }
+}
+
+async function getChatMessages(chatId: string) {
+  try {
+    const results: string[] = await fetchRedis(
+      'zrange',
+      `chat:${chatId}:messages`,
+      0,
+      -1
+    )
+
+    const dbMessages = results.map((msg) => {
+      JSON.parse(msg) as Message
+    })
+
+    const reservedDbMessages = dbMessages.reverse()
+
+    const messages = messageArrayValidator.parse(reservedDbMessages)
+
+    return messages
+  } catch (error) {
+    console.error(error);
+    notFound()
+  }
+}
+
+const page = async ({params}: pageProps) => {
+  const {chatId} = params
+  const session = await getServerSession(authOptions) 
+
+  if (!session) {
+    notFound()
+  }
+
+  const {user} = session
+
+  const [userId1, userId12] = chatId.split('--')
+
+  if (user.id !== userId1 && user.id !== userId12) {
+    notFound()
+  }
+
+  const chatPartnerId = user.id === userId1 ? userId12 : userId1
+  const chatPartner = (await db.get(`user:${chatPartnerId}`)) as User
+  const initialMessages = await getChatMessages(chatId)
+
+  return (
+    <div>{params.chatId}</div>
+  )
+}
+
+export default page
