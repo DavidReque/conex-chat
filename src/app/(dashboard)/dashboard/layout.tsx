@@ -1,6 +1,8 @@
 import { authOptions } from '@/app/lib/auth'
 import FriendsRequestSideBarOptions from '@/components/FriendsRequestSideBarOptions'
 import { Icon, Icons } from '@/components/Icons/Icons'
+import SideBarChatList from '@/components/SideBarChatList'
+import { getFriendsByUserId } from '@/helpers/get-friends-by-userId'
 import { fetchRedis } from '@/helpers/redis'
 import { getServerSession } from 'next-auth'
 import Image from 'next/image'
@@ -35,6 +37,8 @@ const Layout: FC<LayoutProps> = async ({children}) => {
         notFound()
     }
 
+    const friends = await getFriendsByUserId(session.user.id)
+
     const unseenRequestCount = (
       await fetchRedis(
       'smembers',
@@ -49,13 +53,18 @@ const Layout: FC<LayoutProps> = async ({children}) => {
         <Icons.Logo className='h-8 w-auto text-indigo-600'/>
       </Link>
 
-      <div className='text-xs font-semibold leading-6 text-gray-400'>
-        Your chats
-      </div>
+      {
+        friends.length > 0 ? 
+        <div className='text-xs font-semibold leading-6 text-gray-400'>
+          Your chats
+        </div> : null
+      }
 
       <nav className='flex flex-1 flex-col'>
         <ul role='list' className='flex flex-1 flex-col gap-y-7'>
-          <li>Chats that this user has</li>
+          <li>
+              <SideBarChatList sessionId={session.user.id} friends={friends}/>
+          </li>
           <li>
             <div className='text-xs font-semibold leading-6 text-gray-400'>
               Overview
@@ -78,11 +87,11 @@ const Layout: FC<LayoutProps> = async ({children}) => {
                   </li>
                 )
               })}
-            </ul>
-          </li>
-
-          <li>
+              
+              <li>
               <FriendsRequestSideBarOptions sessionId={session.user.id} initialUnseenRequestCount={unseenRequestCount}/>
+          </li>
+            </ul>
           </li>
 
           <li className='-mx-6 mt-auto flex items-center'>
@@ -105,6 +114,7 @@ const Layout: FC<LayoutProps> = async ({children}) => {
               </div>
             </div>
 
+              {/*signOut*/}
           </li>
         </ul>
       </nav>
