@@ -36,7 +36,7 @@ const SideBarChatList: FC<SideBarChatListProps> = ({friends, sessionId}) => {
                         <a href={`/dashboard/chat/${chatHrefConstructor(
                             sessionId,
                             friend.id
-                        )}`}>jello</a>
+                        )}`}>Hello</a>
                     </li>
                 )
             })   
