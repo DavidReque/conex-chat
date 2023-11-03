@@ -20,13 +20,17 @@ const FriendRequest: FC<FriendRequestProps> = ({
     )
 
     const acceptFriend = async (senderId: string) => {
-        await axios.post('/api/friends/accept', {id: senderId})
+        try {
+            await axios.post('/api/friends/accept', {id: senderId})
 
         setFriendRequest((prev) => 
             prev.filter((request) => request.senderId !== senderId)
         )
 
         router.refresh()
+        } catch (error) {
+            console.error(error);
+        }
     }      
     
     const denyFriend = async (senderId: string) => {
@@ -44,7 +48,7 @@ const FriendRequest: FC<FriendRequestProps> = ({
         {friendRequest.length === 0 ? (
             <p className='text-sm text-zinc-500'>Nothing to show here...</p>
         ) : (
-            friendRequest.map((request) => {
+            friendRequest.map((request) => (
                 <div key={request.senderId} className='flex items-center'>
                     <UserPlus className='text-black'/>
                     <p className='font-medium text-lg'>{request.senderEmail}</p>
@@ -56,7 +60,7 @@ const FriendRequest: FC<FriendRequestProps> = ({
                         <X className='font-semibold to-white w-3/4 h-3/4' />
                     </button>
                 </div>
-            })
+            ))
         )}
     </>
   )
