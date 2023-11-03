@@ -23,13 +23,13 @@ const FriendRequest: FC<FriendRequestProps> = ({
         try {
             await axios.post('/api/friends/accept', {id: senderId})
 
-        setFriendRequest((prev) => 
+            setFriendRequest((prev) => 
             prev.filter((request) => request.senderId !== senderId)
-        )
+            )
 
         router.refresh()
         } catch (error) {
-            console.error(error);
+            console.error(error.response);
         }
     }      
     

@@ -30,9 +30,9 @@ export async function POST(req: Request) {
         }
 
         const hasFriendsRequest =  await fetchRedis(
-      'sismember',
-      `user:${session.user.id}:incoming_friend_requests`,
-      idToAdd
+            'sismember',
+            `user:${session.user.id}:incoming_friend_requests`,
+            idToAdd
     )  
 
         if (!hasFriendsRequest) {
