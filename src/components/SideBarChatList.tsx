@@ -23,8 +23,6 @@ const SideBarChatList: FC<SideBarChatListProps> = ({friends, sessionId}) => {
        }
     }, [pathname])
 
-    console.log(friends);
-
   return (
     <ul role='list' className='max-h-[25rem] overflow-y-auto -mx-2 space-y-1'>
         {
