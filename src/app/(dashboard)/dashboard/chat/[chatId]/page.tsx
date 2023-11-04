@@ -1,6 +1,7 @@
 import { authOptions } from '@/app/lib/auth'
 import { db } from '@/app/lib/db'
 import { messageArrayValidator } from '@/app/lib/validations/message'
+import Messages from '@/components/Messages'
 import { fetchRedis } from '@/helpers/redis'
 import { getServerSession } from 'next-auth'
 import Image from 'next/image'
@@ -82,6 +83,8 @@ const page = async ({params}: pageProps) => {
           </div>
         </div>
       </div>
+
+      <Messages/>
     </div>
   )
 }
