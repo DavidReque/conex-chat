@@ -91,7 +91,8 @@ const Layout: FC<LayoutProps> = async ({children}) => {
               
               <li>
               <FriendsRequestSideBarOptions sessionId={session.user.id} initialUnseenRequestCount={unseenRequestCount}/>
-          </li>
+              </li>
+
             </ul>
           </li>
 
