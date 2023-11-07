@@ -2,6 +2,7 @@
 
 import { Message } from '@/app/lib/validations/message'
 import React, { FC, useRef, useState } from 'react'
+import cn from 'classnames'
 
 interface MessagesProps {
     initialMessages: Message[]
