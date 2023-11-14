@@ -61,7 +61,7 @@ const Messages: FC<MessagesProps> = ({initialMessages, sessionId, sessionImg, ch
                             'order-1': !isCurrentUser,
                             'invisible': hasNextMessageFromSameUser
                         })}>
-                            <Image fill src={isCurrentUser ? (sessionImg as string) : chatPartner.image} alt='Profile picture' />
+                            <Image fill src={isCurrentUser ? (sessionImg as string) : chatPartner.image} alt='Profile picture' referrerPolicy='no-referrer' className='rounded-full' />
                         </div>
                     </div>
                 </div>
