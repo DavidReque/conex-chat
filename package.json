@@ -23,6 +23,8 @@
     "nanoid": "^5.0.2",
     "next": "latest",
     "next-auth": "^4.23.2",
+    "pusher": "^5.2.0",
+    "pusher-js": "^8.3.0",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "^7.47.0",
