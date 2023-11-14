@@ -5,11 +5,11 @@ export const pusherServer = new PusherServer({
     appId: process.env.PUSHER_APP_ID!,
     key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY!,
     secret: process.env.PUSHER_APP_SECRET!,
-    cluster: 'us2',
+    cluster: 'eu',
     useTLS: true
 })
 
 
 export const pusherClient = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
-    cluster: 'us2',
+    cluster: 'eu',
 });
