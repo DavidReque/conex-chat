@@ -24,6 +24,7 @@ const FriendRequest: FC<FriendRequestProps> = ({
     useEffect(() => {
         pusherClient.subscribe(toPusherKey( `user:${sessionId}:incoming_friend_requests`))
 
+
         const friendRequestHandler = ({senderId, senderEmail}: incomingFriendRequest) => {
             setFriendRequest((prev) => [...prev, {senderId, senderEmail}])
         }
