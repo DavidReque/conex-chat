@@ -1,9 +1,10 @@
 'use client'
 
+import { pusherClient } from '@/app/lib/pusher'
 import axios from 'axios'
 import { Check, UserPlus, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
 interface FriendRequestProps {
     incomingFriendRequest: incomingFriendRequest[]
@@ -19,6 +20,12 @@ const FriendRequest: FC<FriendRequestProps> = ({
         incomingFriendRequest
     )
 
+    useEffect(() => {
+        pusherClient.subscribe(
+            `user:${sessionId}:incoming_friend_requests`
+        )
+    }, [])
+
     const acceptFriend = async (senderId: string) => {
         try {
             await axios.post('/api/friends/accept', {id: senderId})
@@ -29,7 +36,7 @@ const FriendRequest: FC<FriendRequestProps> = ({
 
         router.refresh()
         } catch (error) {
-            console.error(error.response);
+            console.error(error);
         }
     }      
     
