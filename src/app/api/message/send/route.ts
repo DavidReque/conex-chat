@@ -4,6 +4,8 @@ import { Message, messageValidator } from "@/app/lib/validations/message"
 import { fetchRedis } from "@/helpers/redis"
 import { getServerSession } from "next-auth"
 import {nanoid} from 'nanoid'
+import { pusherServer } from "@/app/lib/pusher"
+import { toPusherKey } from "@/app/lib/utils"
 
 export async function POST(req: Request) {
     try {
@@ -50,6 +52,9 @@ export async function POST(req: Request) {
         }
 
         const message = messageValidator.parse(messageData)
+
+        //notify
+        pusherServer.trigger(toPusherKey(`chat:${chatId}`), 'incoming-message', message)
 
         await db.zadd(`chat:${chatId}:messages`, {
             score: timestamp,
