@@ -1,6 +1,7 @@
 'use client'
 
-import { chatHrefConstructor } from "@/app/lib/utils"
+import { pusherClient } from "@/app/lib/pusher"
+import { chatHrefConstructor, toPusherKey } from "@/app/lib/utils"
 import { usePathname, useRouter } from "next/navigation"
 import { FC, useEffect, useState } from "react"
 
@@ -14,6 +15,27 @@ const SideBarChatList: FC<SideBarChatListProps> = ({friends, sessionId}) => {
     const pathname = usePathname()
 
     const [unseenMessages, setUnseenMessages] = useState<Message[]>([])
+
+    useEffect(() => {
+        pusherClient.subscribe(toPusherKey(`user:${sessionId}:chats`))
+        pusherClient.subscribe(toPusherKey(`user:${sessionId}:friends`))
+
+        function newFriendHandler() {
+            router.refresh()
+        }
+
+        function chatHandler() {
+            console.log('new message');
+        }
+
+        pusherClient.bind('new_message', chatHandler)
+        pusherClient.bind('new_friend', newFriendHandler)
+
+        return () => {
+            pusherClient.unsubscribe(toPusherKey(`user:${sessionId}:chats`))
+            pusherClient.unsubscribe(toPusherKey(`user:${sessionId}:friends`))
+        }
+    }, [])
 
     useEffect(() => {
        if (pathname?.includes('chat')) {
