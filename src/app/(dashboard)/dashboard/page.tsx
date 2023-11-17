@@ -12,7 +12,7 @@ export default function dashboard() {
       {session?.user ? (
         <div>
           <p>{session.user.name}</p>
-          <img src={session.user.image} alt="" />
+          <img src={session.user.image || ''} alt="" />
           <ButtonSignOut/>
         </div>
       ) : (

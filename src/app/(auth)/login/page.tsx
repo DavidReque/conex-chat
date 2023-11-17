@@ -6,7 +6,7 @@ import { signIn } from 'next-auth/react'
 import toast from 'react-hot-toast'
 import Button from '@/components/ui/Button'
 
-export default function page() {
+export default function Page() {
   const [loading, setLoading] = useState<boolean>(false)
 
   async function loginWithGoogle() {
