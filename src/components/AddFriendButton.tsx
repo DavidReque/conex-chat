@@ -57,7 +57,7 @@ export default function AddFriendButton() {
         <Input
           {...register('email')}
           type="email"
-          variant="faded"
+          variant="flat"
           label="Email"
           color="success"
         />
